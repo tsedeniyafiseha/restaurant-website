@@ -8,6 +8,48 @@ const Menu = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const { addToCart } = useCart();
 
+  const handleAddToCart = (item) => {
+    addToCart(item);
+    
+    // Show success notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: white;
+      border-left: 4px solid var(--primary-color);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      z-index: 10000;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    `;
+    notification.innerHTML = `
+      <span style="font-size: 1.5rem;">✅</span>
+      <span style="color: var(--text-dark); font-weight: 500;">${item.name} added to cart!</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    setTimeout(() => {
+      notification.style.transform = 'translateX(400px)';
+      setTimeout(() => {
+        if (document.body.contains(notification)) {
+          document.body.removeChild(notification);
+        }
+      }, 300);
+    }, 3000);
+  };
+
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
@@ -414,7 +456,7 @@ const Menu = () => {
                     )}
                     <button 
                       className="order-btn"
-                      onClick={() => addToCart(item)}
+                      onClick={() => handleAddToCart(item)}
                       style={{
                         width: '100%',
                         padding: '12px 20px',
@@ -426,6 +468,14 @@ const Menu = () => {
                         cursor: 'pointer',
                         transition: 'var(--transition)',
                         marginTop: '15px'
+                      }}
+                      onMouseOver={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = 'none';
                       }}
                     >
                       🛒 Add to Cart
