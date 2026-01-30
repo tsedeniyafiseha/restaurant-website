@@ -97,24 +97,6 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link 
-                to="/admin"
-                style={{ 
-                  fontWeight: '500', 
-                  fontSize: '1rem', 
-                  color: isDarkMode ? '#f39c12' : '#d35400', 
-                  textDecoration: 'none',
-                  transition: 'all 0.3s ease',
-                  padding: '8px 0',
-                  position: 'relative'
-                }}
-                onMouseOver={(e) => e.target.style.color = isDarkMode ? '#e67e22' : '#c0392b'}
-                onMouseOut={(e) => e.target.style.color = isDarkMode ? '#f39c12' : '#d35400'}
-              >
-                Admin
-              </Link>
-            </li>
-            <li>
               <button 
                 onClick={toggleTheme}
                 style={{
