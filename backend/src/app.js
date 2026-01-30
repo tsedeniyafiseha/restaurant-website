@@ -42,7 +42,9 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (pathname === '/api/menu') {
+      console.log('Fetching menu from database...');
       const menu = await db.getMenu();
+      console.log('Menu data retrieved:', menu ? menu.length : 0, 'items');
       sendJSON(res, { success: true, data: menu });
     }
     else if (pathname === '/api/menu/traditional') {
@@ -85,7 +87,7 @@ const server = http.createServer(async (req, res) => {
     }
   } catch (error) {
     console.error('Server error:', error);
-    sendJSON(res, { error: 'Server error' }, 500);
+    sendJSON(res, { error: 'Server error', details: error.message }, 500);
   }
 });
 

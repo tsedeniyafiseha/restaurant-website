@@ -8,115 +8,34 @@ const Menu = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
+        console.log('Fetching menu from API...');
         const response = await fetch('http://localhost:3001/api/menu');
+        console.log('Response status:', response.status);
+        
         if (response.ok) {
-          const data = await response.json();
-          setMenuItems(data);
+          const result = await response.json();
+          console.log('API Response:', result);
+          
+          // Handle the API response format: { success: true, data: [...] }
+          if (result.success && Array.isArray(result.data)) {
+            console.log('Using API data:', result.data.length, 'items');
+            setMenuItems(result.data);
+          } else if (Array.isArray(result)) {
+            // Fallback for direct array response
+            console.log('Using direct array data:', result.length, 'items');
+            setMenuItems(result);
+          } else {
+            console.log('API response format unexpected, using static menu data');
+            console.log('Response structure:', typeof result, result);
+            setMenuItems(getStaticMenuData());
+          }
         } else {
-          console.log('Using static menu data');
-          setMenuItems([
-            {
-              id: 1,
-              name: 'Shekla Tibs',
-              price: 15.99,
-              description: 'Sizzling beef cubes with Ethiopian spices',
-              image: '/images/tibs.jpeg',
-              category: 'traditional'
-            },
-            {
-              id: 2,
-              name: 'Doro Wot',
-              price: 14.99,
-              description: 'Traditional Ethiopian chicken stew',
-              image: '/images/Doro Wot.jpg',
-              category: 'traditional'
-            },
-            {
-              id: 3,
-              name: 'Kitfo',
-              price: 16.99,
-              description: 'Ethiopian steak tartare with spices',
-              image: '/images/ethiopian-kitfo-herbs-cheese-ayibe-close-up-horizontal-plate-view-above-71683090.webp',
-              category: 'traditional'
-            },
-            {
-              id: 4,
-              name: 'Margherita Pizza',
-              price: 18.99,
-              description: 'Classic Italian pizza',
-              image: '/images/menu-pizza.jpg',
-              category: 'international'
-            },
-            {
-              id: 5,
-              name: 'Classic Burger',
-              price: 14.99,
-              description: 'Juicy beef patty with cheese',
-              image: '/images/burger.jpg',
-              category: 'international'
-            },
-            {
-              id: 6,
-              name: 'Chicken Momo',
-              price: 12.99,
-              description: 'Nepalese steamed dumplings',
-              image: '/images/momo.jpg',
-              category: 'international'
-            }
-          ]);
+          console.log('API request failed with status:', response.status);
+          setMenuItems(getStaticMenuData());
         }
       } catch (error) {
         console.error('Error fetching menu:', error);
-        setMenuItems([
-          {
-            id: 1,
-            name: 'Shekla Tibs',
-            price: 15.99,
-            description: 'Sizzling beef cubes with Ethiopian spices',
-            image: '/images/tibs.jpeg',
-            category: 'traditional'
-          },
-          {
-            id: 2,
-            name: 'Doro Wot',
-            price: 14.99,
-            description: 'Traditional Ethiopian chicken stew',
-            image: '/images/Doro Wot.jpg',
-            category: 'traditional'
-          },
-          {
-            id: 3,
-            name: 'Kitfo',
-            price: 16.99,
-            description: 'Ethiopian steak tartare with spices',
-            image: '/images/ethiopian-kitfo-herbs-cheese-ayibe-close-up-horizontal-plate-view-above-71683090.webp',
-            category: 'traditional'
-          },
-          {
-            id: 4,
-            name: 'Margherita Pizza',
-            price: 18.99,
-            description: 'Classic Italian pizza',
-            image: '/images/menu-pizza.jpg',
-            category: 'international'
-          },
-          {
-            id: 5,
-            name: 'Classic Burger',
-            price: 14.99,
-            description: 'Juicy beef patty with cheese',
-            image: '/images/burger.jpg',
-            category: 'international'
-          },
-          {
-            id: 6,
-            name: 'Chicken Momo',
-            price: 12.99,
-            description: 'Nepalese steamed dumplings',
-            image: '/images/momo.jpg',
-            category: 'international'
-          }
-        ]);
+        setMenuItems(getStaticMenuData());
       } finally {
         setLoading(false);
       }
@@ -125,13 +44,68 @@ const Menu = () => {
     fetchMenuItems();
   }, []);
 
+  const getStaticMenuData = () => [
+    {
+      id: 1,
+      name: 'Shekla Tibs',
+      price: 15.99,
+      description: 'Sizzling beef cubes with Ethiopian spices',
+      image: '/images/tibs.jpeg',
+      category: 'traditional'
+    },
+    {
+      id: 2,
+      name: 'Doro Wot',
+      price: 14.99,
+      description: 'Traditional Ethiopian chicken stew',
+      image: '/images/Doro Wot.jpg',
+      category: 'traditional'
+    },
+    {
+      id: 3,
+      name: 'Kitfo',
+      price: 16.99,
+      description: 'Ethiopian steak tartare with spices',
+      image: '/images/ethiopian-kitfo-herbs-cheese-ayibe-close-up-horizontal-plate-view-above-71683090.webp',
+      category: 'traditional'
+    },
+    {
+      id: 4,
+      name: 'Margherita Pizza',
+      price: 18.99,
+      description: 'Classic Italian pizza',
+      image: '/images/menu-pizza.jpg',
+      category: 'international'
+    },
+    {
+      id: 5,
+      name: 'Classic Burger',
+      price: 14.99,
+      description: 'Juicy beef patty with cheese',
+      image: '/images/burger.jpg',
+      category: 'international'
+    },
+    {
+      id: 6,
+      name: 'Chicken Momo',
+      price: 12.99,
+      description: 'Nepalese steamed dumplings',
+      image: '/images/momo.jpg',
+      category: 'international'
+    }
+  ];
+
   const handleSearch = (e) => {
     e.preventDefault();
   };
 
-  const filteredItems = menuItems.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+  // Ensure menuItems is always an array before filtering
+  const safeMenuItems = Array.isArray(menuItems) ? menuItems : [];
+  
+  const filteredItems = safeMenuItems.filter(item =>
+    item.name && item.description &&
+    (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const traditionalItems = filteredItems.filter(item => item.category === 'traditional');
@@ -215,6 +189,13 @@ const Menu = () => {
                   <div className="clearfix"></div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {filteredItems.length === 0 && (
+            <div className="container text-center" style={{ padding: '4rem 0' }}>
+              <h3>No menu items found</h3>
+              <p>Try adjusting your search or check back later.</p>
             </div>
           )}
 

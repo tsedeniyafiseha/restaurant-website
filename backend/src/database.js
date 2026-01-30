@@ -8,23 +8,61 @@ const supabase = createClient(
 
 const db = {
   async getMenu() {
-    const { data } = await supabase.from('menu_items').select('*').eq('available', true);
-    return data || [];
+    try {
+      console.log('Querying menu_items table...');
+      const { data, error } = await supabase.from('menu_items').select('*').eq('available', true);
+      if (error) {
+        console.error('Database error:', error);
+        return [];
+      }
+      console.log('Database returned:', data ? data.length : 0, 'items');
+      return data || [];
+    } catch (error) {
+      console.error('Error in getMenu:', error);
+      return [];
+    }
   },
 
   async getMenuByCategory(category) {
-    const { data } = await supabase.from('menu_items').select('*').eq('category', category).eq('available', true);
-    return data || [];
+    try {
+      const { data, error } = await supabase.from('menu_items').select('*').eq('category', category).eq('available', true);
+      if (error) {
+        console.error('Database error:', error);
+        return [];
+      }
+      return data || [];
+    } catch (error) {
+      console.error('Error in getMenuByCategory:', error);
+      return [];
+    }
   },
 
   async searchMenu(query) {
-    const { data } = await supabase.from('menu_items').select('*').ilike('name', `%${query}%`).eq('available', true);
-    return data || [];
+    try {
+      const { data, error } = await supabase.from('menu_items').select('*').ilike('name', `%${query}%`).eq('available', true);
+      if (error) {
+        console.error('Database error:', error);
+        return [];
+      }
+      return data || [];
+    } catch (error) {
+      console.error('Error in searchMenu:', error);
+      return [];
+    }
   },
 
   async saveContact(contact) {
-    const { data } = await supabase.from('contact_submissions').insert([contact]).select();
-    return data[0];
+    try {
+      const { data, error } = await supabase.from('contact_submissions').insert([contact]).select();
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
+      return data[0];
+    } catch (error) {
+      console.error('Error in saveContact:', error);
+      throw error;
+    }
   }
 };
 
