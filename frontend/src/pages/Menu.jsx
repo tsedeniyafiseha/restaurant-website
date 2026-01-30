@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useCart } from '../context/CartContext';
+import OrderCustomization from '../components/OrderCustomization';
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [showCustomization, setShowCustomization] = useState(false);
+  const [vegFilter, setVegFilter] = useState('all'); // all, veg, non-veg
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -52,6 +58,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'hot',
       popular: true,
+      available: true,
+      isVeg: false,
+      chefSpecial: true,
       ingredients: ['Chicken', 'Berbere', 'Onions', 'Eggs']
     },
     {
@@ -63,6 +72,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'medium',
       popular: true,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Beef', 'Onions', 'Peppers', 'Ethiopian Spices']
     },
     {
@@ -74,6 +86,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'hot',
       popular: true,
+      available: true,
+      isVeg: false,
+      chefSpecial: true,
       ingredients: ['Raw Beef', 'Mitmita', 'Clarified Butter', 'Cheese']
     },
     {
@@ -85,6 +100,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'mild',
       popular: false,
+      available: true,
+      isVeg: true,
+      chefSpecial: false,
       ingredients: ['Lentils', 'Cabbage', 'Collard Greens', 'Injera']
     },
     {
@@ -96,6 +114,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'medium',
       popular: false,
+      available: false, // Sold out example
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Lamb', 'Onions', 'Tomatoes', 'Jalapeños']
     },
     {
@@ -107,6 +128,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'mild',
       popular: false,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Fish', 'Tomatoes', 'Onions', 'Ethiopian Spices']
     },
     {
@@ -118,6 +142,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'medium',
       popular: true,
+      available: true,
+      isVeg: true,
+      chefSpecial: false,
       ingredients: ['Injera', 'Lentils', 'Vegetables', 'Spices']
     },
     {
@@ -129,6 +156,9 @@ const Menu = () => {
       category: 'traditional',
       spicy: 'medium',
       popular: false,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Beef Strips', 'Onions', 'Jalapeños', 'Rosemary']
     },
     {
@@ -140,6 +170,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'none',
       popular: true,
+      available: true,
+      isVeg: true,
+      chefSpecial: false,
       ingredients: ['Mozzarella', 'Tomatoes', 'Basil', 'Pizza Dough']
     },
     {
@@ -151,6 +184,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'none',
       popular: true,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Beef Patty', 'Cheddar', 'Onions', 'Brioche Bun']
     },
     {
@@ -162,6 +198,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'medium',
       popular: false,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Chicken', 'Dumpling Wrapper', 'Spices', 'Dipping Sauce']
     },
     {
@@ -173,6 +212,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'none',
       popular: false,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Salmon', 'Lemon', 'Herbs', 'Vegetables']
     },
     {
@@ -184,6 +226,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'mild',
       popular: true,
+      available: false, // Sold out example
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Pepperoni', 'Mozzarella', 'Italian Herbs', 'Pizza Dough']
     },
     {
@@ -195,6 +240,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'none',
       popular: false,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Romaine', 'Grilled Chicken', 'Parmesan', 'Caesar Dressing']
     },
     {
@@ -206,6 +254,9 @@ const Menu = () => {
       category: 'international',
       spicy: 'none',
       popular: false,
+      available: true,
+      isVeg: false,
+      chefSpecial: false,
       ingredients: ['Pasta', 'Pancetta', 'Eggs', 'Parmesan']
     }
   ];
@@ -221,6 +272,12 @@ const Menu = () => {
     { id: 'popular', name: 'Popular', icon: '⭐' }
   ];
 
+  const vegFilters = [
+    { id: 'all', name: 'All', icon: '🍽️' },
+    { id: 'veg', name: 'Vegetarian', icon: '🥦' },
+    { id: 'non-veg', name: 'Non-Vegetarian', icon: '🥩' }
+  ];
+
   const safeMenuItems = Array.isArray(menuItems) ? menuItems : [];
   
   let filteredItems = safeMenuItems.filter(item =>
@@ -229,11 +286,48 @@ const Menu = () => {
     item.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  // Apply category filter
   if (activeCategory === 'popular') {
     filteredItems = filteredItems.filter(item => item.popular);
   } else if (activeCategory !== 'all') {
     filteredItems = filteredItems.filter(item => item.category === activeCategory);
   }
+
+  // Apply veg filter
+  if (vegFilter === 'veg') {
+    filteredItems = filteredItems.filter(item => item.isVeg);
+  } else if (vegFilter === 'non-veg') {
+    filteredItems = filteredItems.filter(item => !item.isVeg);
+  }
+
+  const handleOrderClick = (item) => {
+    setSelectedItem(item);
+    setShowCustomization(true);
+  };
+
+  const handleQuickAdd = (item) => {
+    addToCart(item, {}, 1);
+    
+    // Show success toast
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+      <div class="toast-content">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message">${item.name} added to cart!</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.add('toast-show');
+    }, 100);
+    
+    setTimeout(() => {
+      toast.classList.remove('toast-show');
+      setTimeout(() => document.body.removeChild(toast), 300);
+    }, 3000);
+  };
 
   const getSpicyIcon = (spicy) => {
     switch (spicy) {
@@ -303,7 +397,7 @@ const Menu = () => {
       {/* Category Filter */}
       <section style={{ padding: '40px 0', background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '30px' }}>
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -321,6 +415,29 @@ const Menu = () => {
                 }}
               >
                 {category.icon} {category.name}
+              </button>
+            ))}
+          </div>
+          
+          {/* Veg/Non-Veg Filter */}
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+            {vegFilters.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => setVegFilter(filter.id)}
+                style={{
+                  padding: '8px 16px',
+                  border: vegFilter === filter.id ? '2px solid #d35400' : '2px solid #e9ecef',
+                  borderRadius: '25px',
+                  background: vegFilter === filter.id ? '#fff5e6' : 'white',
+                  color: vegFilter === filter.id ? '#d35400' : '#6c757d',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.9rem'
+                }}
+              >
+                {filter.icon} {filter.name}
               </button>
             ))}
           </div>
@@ -345,8 +462,20 @@ const Menu = () => {
                         ⭐ Popular
                       </div>
                     )}
+                    {item.chefSpecial && (
+                      <div className="chef-special-badge">
+                        👨‍🍳 Chef's Special
+                      </div>
+                    )}
                     <div className="spicy-indicator">
                       {getSpicyIcon(item.spicy)}
+                    </div>
+                    <div className="availability-indicator">
+                      {item.available ? (
+                        <span className="available">✅ Available Today</span>
+                      ) : (
+                        <span className="sold-out">❌ Sold Out</span>
+                      )}
                     </div>
                   </div>
                   <div className="menu-card-content">
@@ -354,8 +483,13 @@ const Menu = () => {
                       <h3>{item.name}</h3>
                       <span className="price">${item.price}</span>
                     </div>
-                    <div className={`cuisine-badge ${item.category}`}>
-                      {item.category === 'traditional' ? '🇪🇹 Ethiopian' : '🌍 International'}
+                    <div className="menu-badges">
+                      <div className={`cuisine-badge ${item.category}`}>
+                        {item.category === 'traditional' ? '🇪🇹 Ethiopian' : '🌍 International'}
+                      </div>
+                      <div className={`veg-badge ${item.isVeg ? 'veg' : 'non-veg'}`}>
+                        {item.isVeg ? '🥦 Veg' : '🥩 Non-Veg'}
+                      </div>
                     </div>
                     <p className="description">{item.description}</p>
                     {item.ingredients && (
@@ -364,9 +498,28 @@ const Menu = () => {
                         {item.ingredients.join(', ')}
                       </div>
                     )}
-                    <button className="order-btn">
-                      Add to Order
-                    </button>
+                    <div className="order-buttons">
+                      {item.available ? (
+                        <>
+                          <button 
+                            className="order-btn primary"
+                            onClick={() => handleOrderClick(item)}
+                          >
+                            🛒 Customize & Add
+                          </button>
+                          <button 
+                            className="order-btn secondary"
+                            onClick={() => handleQuickAdd(item)}
+                          >
+                            ⚡ Quick Add
+                          </button>
+                        </>
+                      ) : (
+                        <button className="order-btn disabled" disabled>
+                          😔 Currently Unavailable
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -473,6 +626,16 @@ const Menu = () => {
           </div>
         </div>
       </section>
+
+      {/* Order Customization Modal */}
+      <OrderCustomization 
+        item={selectedItem}
+        isOpen={showCustomization}
+        onClose={() => {
+          setShowCustomization(false);
+          setSelectedItem(null);
+        }}
+      />
 
       {/* Why Choose Us Section */}
       <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)', color: 'white' }}>
