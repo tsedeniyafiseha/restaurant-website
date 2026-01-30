@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
   customer_name VARCHAR(255) NOT NULL,
   customer_email VARCHAR(255) NOT NULL,
-  customer_phone VARCHAR(50),
+  customer_phone VARCHAR(50) NOT NULL,
+  customer_address TEXT,
+  notes TEXT,
   items JSONB NOT NULL,
   total_amount DECIMAL(10,2) NOT NULL,
   status VARCHAR(50) DEFAULT 'pending',
@@ -44,23 +46,23 @@ CREATE TABLE IF NOT EXISTS orders (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Insert Sample Menu Data
+-- Insert Sample Menu Data with Ethiopian Birr (ETB) prices
 INSERT INTO menu_items (name, price, category, description, image, featured) VALUES
-('Shekla Tibs', 22.99, 'traditional', 'Sizzling beef cubes sautéed with onions, peppers, and Ethiopian spices, served on a hot clay plate.', '/images/tibs.jpeg', TRUE),
-('Doro Wot', 18.99, 'traditional', 'Traditional Ethiopian chicken stew with hard-boiled eggs, slow-cooked in berbere spice and served with injera.', '/images/Doro Wot.jpg', TRUE),
-('Kitfo', 24.99, 'traditional', 'Ethiopian steak tartare - minced raw beef marinated in mitmita spice and clarified butter, served with injera and ayib.', '/images/ethiopian-kitfo-herbs-cheese-ayibe-close-up-horizontal-plate-view-above-71683090.webp', TRUE),
-('Vegetarian Combo', 16.99, 'traditional', 'A variety of vegetarian dishes including lentils, cabbage, and collard greens served with injera.', '/images/image.jpg', FALSE),
-('Lamb Tibs', 26.99, 'traditional', 'Tender lamb pieces sautéed with onions, tomatoes, and jalapeños in Ethiopian spices.', '/images/tibs.jpeg', FALSE),
-('Fish Gulash', 19.99, 'traditional', 'Fresh fish cooked in a rich tomato-based sauce with Ethiopian spices.', '/images/image.jpg', FALSE),
-('Injera Platter', 21.99, 'traditional', 'Traditional Ethiopian sourdough flatbread served with assorted vegetarian and meat dishes.', '/images/image.jpg', TRUE),
-('Zilzil Tibs', 25.99, 'traditional', 'Strips of tender beef sautéed with onions, jalapeños, and rosemary in Ethiopian spices.', '/images/tibs.jpeg', FALSE),
-('Margherita Pizza', 16.99, 'international', 'Classic Italian pizza with fresh mozzarella, basil, and tomato sauce on wood-fired crust.', '/images/menu-pizza.jpg', TRUE),
-('Gourmet Burger', 18.99, 'international', 'Juicy beef patty with cheese, lettuce, tomato, and special sauce on a toasted bun.', '/images/burger.jpg', TRUE),
-('Chicken Momo', 14.99, 'international', 'Traditional Nepalese steamed dumplings filled with seasoned chicken, served with spicy chutney.', '/images/momo.jpg', FALSE),
-('Grilled Salmon', 24.99, 'international', 'Fresh Atlantic salmon grilled to perfection with lemon herb butter and seasonal vegetables.', '/images/image.jpg', FALSE),
-('Pepperoni Pizza', 19.99, 'international', 'Loaded with premium pepperoni, mozzarella cheese, and Italian herbs on wood-fired crust.', '/images/pizza.jpg', TRUE),
-('Chicken Caesar Salad', 15.99, 'international', 'Crisp romaine lettuce with grilled chicken, parmesan cheese, and homemade Caesar dressing.', '/images/image.jpg', FALSE),
-('Pasta Carbonara', 17.99, 'international', 'Creamy Italian pasta with pancetta, eggs, parmesan cheese, and black pepper.', '/images/image.jpg', FALSE);
+('Shekla Tibs', 1150.00, 'traditional', 'Sizzling beef cubes sautéed with onions, peppers, and Ethiopian spices, served on a hot clay plate.', '/images/tibs.jpeg', TRUE),
+('Doro Wot', 950.00, 'traditional', 'Traditional Ethiopian chicken stew with hard-boiled eggs, slow-cooked in berbere spice and served with injera.', '/images/Doro Wot.jpg', TRUE),
+('Kitfo', 1250.00, 'traditional', 'Ethiopian steak tartare - minced raw beef marinated in mitmita spice and clarified butter, served with injera and ayib.', '/images/ethiopian-kitfo-herbs-cheese-ayibe-close-up-horizontal-plate-view-above-71683090.webp', TRUE),
+('Vegetarian Combo', 850.00, 'traditional', 'A variety of vegetarian dishes including lentils, cabbage, and collard greens served with injera.', '/images/image.jpg', FALSE),
+('Lamb Tibs', 1350.00, 'traditional', 'Tender lamb pieces sautéed with onions, tomatoes, and jalapeños in Ethiopian spices.', '/images/tibs.jpeg', FALSE),
+('Fish Gulash', 1000.00, 'traditional', 'Fresh fish cooked in a rich tomato-based sauce with Ethiopian spices.', '/images/image.jpg', FALSE),
+('Injera Platter', 1100.00, 'traditional', 'Traditional Ethiopian sourdough flatbread served with assorted vegetarian and meat dishes.', '/images/image.jpg', TRUE),
+('Zilzil Tibs', 1300.00, 'traditional', 'Strips of tender beef sautéed with onions, jalapeños, and rosemary in Ethiopian spices.', '/images/tibs.jpeg', FALSE),
+('Margherita Pizza', 850.00, 'international', 'Classic Italian pizza with fresh mozzarella, basil, and tomato sauce on wood-fired crust.', '/images/menu-pizza.jpg', TRUE),
+('Gourmet Burger', 950.00, 'international', 'Juicy beef patty with cheese, lettuce, tomato, and special sauce on a toasted bun.', '/images/burger.jpg', TRUE),
+('Chicken Momo', 750.00, 'international', 'Traditional Nepalese steamed dumplings filled with seasoned chicken, served with spicy chutney.', '/images/momo.jpg', FALSE),
+('Grilled Salmon', 1250.00, 'international', 'Fresh Atlantic salmon grilled to perfection with lemon herb butter and seasonal vegetables.', '/images/image.jpg', FALSE),
+('Pepperoni Pizza', 1000.00, 'international', 'Loaded with premium pepperoni, mozzarella cheese, and Italian herbs on wood-fired crust.', '/images/pizza.jpg', TRUE),
+('Chicken Caesar Salad', 800.00, 'international', 'Crisp romaine lettuce with grilled chicken, parmesan cheese, and homemade Caesar dressing.', '/images/image.jpg', FALSE),
+('Pasta Carbonara', 900.00, 'international', 'Creamy Italian pasta with pancetta, eggs, parmesan cheese, and black pepper.', '/images/image.jpg', FALSE);
 
 -- Enable RLS (Optional - for production security)
 -- ALTER TABLE menu_items ENABLE ROW LEVEL SECURITY;

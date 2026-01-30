@@ -16,7 +16,7 @@ const SpecialEvents = () => {
       0: { // Sunday
         name: 'Sunday Family Feast',
         description: 'Traditional Ethiopian family platter for 4-6 people',
-        price: '$65',
+        price: 'ETB 3250',
         discount: '15% OFF',
         icon: '👨‍👩‍👧‍👦'
       },
@@ -30,28 +30,28 @@ const SpecialEvents = () => {
       2: { // Tuesday
         name: 'Tibs Tuesday',
         description: 'All Tibs varieties with complimentary injera',
-        price: '$18-26',
+        price: 'ETB 900-1300',
         discount: 'Free Injera',
         icon: '🥩'
       },
       3: { // Wednesday
         name: 'Wine Wednesday',
         description: 'Ethiopian honey wine (Tej) tasting with dinner',
-        price: '$35',
+        price: 'ETB 1750',
         discount: 'Free Tasting',
         icon: '🍷'
       },
       4: { // Thursday
         name: 'Traditional Thursday',
         description: 'Authentic coffee ceremony with any traditional dish',
-        price: '$22-28',
+        price: 'ETB 1100-1400',
         discount: 'Free Coffee',
         icon: '☕'
       },
       5: { // Friday
         name: 'Fresh Fish Friday',
         description: 'Fresh catch of the day with Ethiopian spices',
-        price: '$24',
+        price: 'ETB 1200',
         discount: '10% OFF',
         icon: '🐟'
       },
@@ -103,7 +103,7 @@ const SpecialEvents = () => {
         description: 'Romantic dinner for two with special pricing',
         type: 'Holiday Special',
         icon: '💕',
-        special: 'Couples menu $85 for two'
+        special: 'Couples menu ETB 4250 for two'
       }
     ];
 
@@ -120,7 +120,7 @@ const SpecialEvents = () => {
         name: 'Saturday Brunch',
         time: '10:00 AM - 2:00 PM',
         description: 'Ethiopian-style brunch with traditional coffee',
-        price: '$22',
+        price: 'ETB 1100',
         icon: '🥞'
       },
       {
@@ -229,15 +229,15 @@ const SpecialEvents = () => {
               <div className="holiday-dishes">
                 <div className="holiday-dish">
                   <span className="dish-name">Festive Doro Wot</span>
-                  <span className="dish-price">$28</span>
+                  <span className="dish-price">ETB 1400</span>
                 </div>
                 <div className="holiday-dish">
                   <span className="dish-name">Holiday Spice Tibs</span>
-                  <span className="dish-price">$32</span>
+                  <span className="dish-price">ETB 1600</span>
                 </div>
                 <div className="holiday-dish">
                   <span className="dish-name">New Year Vegetarian Feast</span>
-                  <span className="dish-price">$24</span>
+                  <span className="dish-price">ETB 1200</span>
                 </div>
               </div>
               <button className="btn btn-secondary">View Full Holiday Menu</button>

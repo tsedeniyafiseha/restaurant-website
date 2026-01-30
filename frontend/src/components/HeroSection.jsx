@@ -47,14 +47,14 @@ const HeroSection = () => {
                 <img src="/images/tibs.jpeg" alt="Tibs" />
                 <div className="card-info">
                   <h4>Shekla Tibs</h4>
-                  <p>$15.99</p>
+                  <p>ETB 1150.00</p>
                 </div>
               </div>
               <div className="hero-floating-card card-2">
                 <img src="/images/Doro Wot.jpg" alt="Doro Wot" />
                 <div className="card-info">
                   <h4>Doro Wot</h4>
-                  <p>$14.99</p>
+                  <p>ETB 950.00</p>
                 </div>
               </div>
             </div>

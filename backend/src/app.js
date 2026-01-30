@@ -79,6 +79,48 @@ const server = http.createServer(async (req, res) => {
       await db.saveContact(contact);
       sendJSON(res, { success: true, message: 'Message sent successfully!' });
     }
+    else if (pathname === '/api/orders' && req.method === 'POST') {
+      const body = await getBody(req);
+      
+      if (!body.customer_name || !body.customer_email || !body.customer_phone || !body.items || !body.total_amount) {
+        sendJSON(res, { error: 'Missing required fields' }, 400);
+        return;
+      }
+      
+      const order = {
+        customer_name: body.customer_name,
+        customer_email: body.customer_email,
+        customer_phone: body.customer_phone,
+        customer_address: body.customer_address || '',
+        notes: body.notes || '',
+        items: JSON.stringify(body.items),
+        total_amount: body.total_amount,
+        status: 'pending'
+      };
+      
+      const orderId = await db.saveOrder(order);
+      sendJSON(res, { 
+        success: true, 
+        message: 'Order placed successfully!', 
+        orderId: orderId 
+      });
+    }
+    else if (pathname === '/api/orders' && req.method === 'GET') {
+      const orders = await db.getOrders();
+      sendJSON(res, { success: true, data: orders });
+    }
+    else if (pathname.startsWith('/api/orders/') && pathname.endsWith('/status') && req.method === 'PUT') {
+      const orderId = pathname.split('/')[3];
+      const body = await getBody(req);
+      
+      if (!body.status) {
+        sendJSON(res, { error: 'Status is required' }, 400);
+        return;
+      }
+      
+      await db.updateOrderStatus(orderId, body.status);
+      sendJSON(res, { success: true, message: 'Order status updated successfully!' });
+    }
     else if (pathname === '/api/health') {
       sendJSON(res, { status: 'healthy' });
     }

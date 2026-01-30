@@ -63,6 +63,48 @@ const db = {
       console.error('Error in saveContact:', error);
       throw error;
     }
+  },
+
+  async saveOrder(order) {
+    try {
+      const { data, error } = await supabase.from('orders').insert([order]).select();
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
+      return data[0].id;
+    } catch (error) {
+      console.error('Error in saveOrder:', error);
+      throw error;
+    }
+  },
+
+  async getOrders() {
+    try {
+      const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+      if (error) {
+        console.error('Database error:', error);
+        return [];
+      }
+      return data || [];
+    } catch (error) {
+      console.error('Error in getOrders:', error);
+      return [];
+    }
+  },
+
+  async updateOrderStatus(orderId, status) {
+    try {
+      const { data, error } = await supabase.from('orders').update({ status }).eq('id', orderId).select();
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
+      return data[0];
+    } catch (error) {
+      console.error('Error in updateOrderStatus:', error);
+      throw error;
+    }
   }
 };
 

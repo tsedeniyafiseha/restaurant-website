@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/SimpleCartContext';
+import { useTheme } from '../context/ThemeContext';
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -7,6 +8,7 @@ const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const { addToCart } = useCart();
+  const { isDarkMode } = useTheme();
 
   const handleAddToCart = (item) => {
     addToCart(item);
@@ -90,7 +92,7 @@ const Menu = () => {
     {
       id: 1,
       name: 'Doro Wot',
-      price: 18.99,
+      price: 950.00,
       description: 'Ethiopia\'s national dish - tender chicken simmered in berbere spice sauce with hard-boiled eggs',
       image: '/images/Doro Wot.jpg',
       category: 'traditional',
@@ -104,7 +106,7 @@ const Menu = () => {
     {
       id: 2,
       name: 'Shekla Tibs',
-      price: 22.99,
+      price: 1150.00,
       description: 'Sizzling beef cubes marinated in Ethiopian spices, served on a hot plate with vegetables',
       image: '/images/tibs.jpeg',
       category: 'traditional',
@@ -118,7 +120,7 @@ const Menu = () => {
     {
       id: 3,
       name: 'Kitfo',
-      price: 24.99,
+      price: 1250.00,
       description: 'Ethiopian steak tartare seasoned with mitmita spice and clarified butter, served with injera',
       image: '/images/ethiopian-kitfo-herbs-cheese-ayibe-close-up-horizontal-plate-view-above-71683090.webp',
       category: 'traditional',
@@ -132,7 +134,7 @@ const Menu = () => {
     {
       id: 4,
       name: 'Vegetarian Combo',
-      price: 16.99,
+      price: 850.00,
       description: 'A variety of vegetarian dishes including lentils, cabbage, and collard greens served with injera',
       image: '/images/image.jpg',
       category: 'traditional',
@@ -146,7 +148,7 @@ const Menu = () => {
     {
       id: 5,
       name: 'Lamb Tibs',
-      price: 26.99,
+      price: 1350.00,
       description: 'Tender lamb pieces sautéed with onions, tomatoes, and jalapeños in Ethiopian spices',
       image: '/images/tibs.jpeg',
       category: 'traditional',
@@ -160,7 +162,7 @@ const Menu = () => {
     {
       id: 6,
       name: 'Fish Gulash',
-      price: 19.99,
+      price: 1000.00,
       description: 'Fresh fish cooked in a rich tomato-based sauce with Ethiopian spices',
       image: '/images/image.jpg',
       category: 'traditional',
@@ -174,7 +176,7 @@ const Menu = () => {
     {
       id: 7,
       name: 'Injera Platter',
-      price: 21.99,
+      price: 1100.00,
       description: 'Traditional Ethiopian sourdough flatbread served with assorted vegetarian and meat dishes',
       image: '/images/image.jpg',
       category: 'traditional',
@@ -188,7 +190,7 @@ const Menu = () => {
     {
       id: 8,
       name: 'Zilzil Tibs',
-      price: 25.99,
+      price: 1300.00,
       description: 'Strips of tender beef sautéed with onions, jalapeños, and rosemary in Ethiopian spices',
       image: '/images/tibs.jpeg',
       category: 'traditional',
@@ -202,7 +204,7 @@ const Menu = () => {
     {
       id: 9,
       name: 'Margherita Pizza',
-      price: 16.99,
+      price: 850.00,
       description: 'Classic Italian pizza with fresh mozzarella, tomatoes, and basil on crispy thin crust',
       image: '/images/menu-pizza.jpg',
       category: 'international',
@@ -216,7 +218,7 @@ const Menu = () => {
     {
       id: 10,
       name: 'Gourmet Burger',
-      price: 18.99,
+      price: 950.00,
       description: 'Juicy beef patty with aged cheddar, caramelized onions, and special sauce on brioche bun',
       image: '/images/burger.jpg',
       category: 'international',
@@ -230,7 +232,7 @@ const Menu = () => {
     {
       id: 11,
       name: 'Chicken Momo',
-      price: 14.99,
+      price: 750.00,
       description: 'Nepalese steamed dumplings filled with seasoned chicken, served with spicy dipping sauce',
       image: '/images/momo.jpg',
       category: 'international',
@@ -244,7 +246,7 @@ const Menu = () => {
     {
       id: 12,
       name: 'Grilled Salmon',
-      price: 24.99,
+      price: 1250.00,
       description: 'Fresh Atlantic salmon grilled to perfection with lemon herb butter and seasonal vegetables',
       image: '/images/image.jpg',
       category: 'international',
@@ -258,7 +260,7 @@ const Menu = () => {
     {
       id: 13,
       name: 'Pepperoni Pizza',
-      price: 19.99,
+      price: 1000.00,
       description: 'Loaded with premium pepperoni, mozzarella cheese, and Italian herbs on wood-fired crust',
       image: '/images/pizza.jpg',
       category: 'international',
@@ -272,7 +274,7 @@ const Menu = () => {
     {
       id: 14,
       name: 'Chicken Caesar Salad',
-      price: 15.99,
+      price: 800.00,
       description: 'Crisp romaine lettuce with grilled chicken, parmesan cheese, and homemade Caesar dressing',
       image: '/images/image.jpg',
       category: 'international',
@@ -286,7 +288,7 @@ const Menu = () => {
     {
       id: 15,
       name: 'Pasta Carbonara',
-      price: 17.99,
+      price: 900.00,
       description: 'Creamy Italian pasta with pancetta, eggs, parmesan cheese, and black pepper',
       image: '/images/image.jpg',
       category: 'international',
@@ -345,53 +347,133 @@ const Menu = () => {
   }
 
   return (
-    <>
+    <div style={{
+      backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff',
+      color: isDarkMode ? '#ffffff' : '#2c3e50',
+      minHeight: '100vh'
+    }}>
       {/* Hero Section */}
-      <section className="menu-hero">
+      <section className="menu-hero" style={{
+        background: isDarkMode 
+          ? 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)' 
+          : 'linear-gradient(135deg, #d35400 0%, #e67e22 100%)',
+        padding: '120px 0 80px',
+        color: 'white'
+      }}>
         <div className="container text-center">
-          <h1 className="hero-title text-white">Our Delicious Menu</h1>
-          <p className="hero-subtitle text-white">
+          <h1 className="hero-title text-white" style={{
+            fontSize: '4rem',
+            marginBottom: '1.5rem',
+            fontFamily: 'Playfair Display, serif'
+          }}>Our Delicious Menu</h1>
+          <p className="hero-subtitle text-white" style={{
+            fontSize: '1.3rem',
+            marginBottom: '3rem',
+            maxWidth: '600px',
+            margin: '0 auto 3rem'
+          }}>
             Discover authentic Ethiopian flavors and international favorites crafted with love
           </p>
-          <form className="search-form" onSubmit={handleSearch}>
+          <form className="search-form" onSubmit={handleSearch} style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '15px',
+            maxWidth: '500px',
+            margin: '0 auto'
+          }}>
             <input
               type="search"
               name="search"
               placeholder="Search for dishes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                flex: 1,
+                padding: '15px 25px',
+                borderRadius: '50px',
+                border: 'none',
+                fontSize: '1.1rem',
+                background: 'rgba(255, 255, 255, 0.9)',
+                color: '#2c3e50'
+              }}
             />
-            <input type="submit" name="submit" value="Search" />
+            <input 
+              type="submit" 
+              name="submit" 
+              value="Search"
+              style={{
+                padding: '15px 30px',
+                borderRadius: '50px',
+                border: 'none',
+                background: isDarkMode ? '#f39c12' : 'rgba(255, 255, 255, 0.9)',
+                color: isDarkMode ? 'white' : '#d35400',
+                fontWeight: '600',
+                cursor: 'pointer',
+                fontSize: '1.1rem'
+              }}
+            />
           </form>
         </div>
       </section>
 
       {/* Menu Stats Section */}
-      <section style={{ padding: '60px 0', background: 'linear-gradient(135deg, #fff5e6 0%, #ffffff 100%)' }}>
+      <section style={{ 
+        padding: '60px 0', 
+        background: isDarkMode 
+          ? 'linear-gradient(135deg, #34495e 0%, #2c3e50 100%)' 
+          : 'linear-gradient(135deg, #fff5e6 0%, #ffffff 100%)' 
+      }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px', textAlign: 'center' }}>
-            <div style={{ padding: '30px', background: 'white', borderRadius: '15px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-              <h3 style={{ fontSize: '2.5rem', color: '#d35400', marginBottom: '10px' }}>25+</h3>
-              <p style={{ color: '#7f8c8d', fontWeight: '500' }}>Signature Dishes</p>
+            <div style={{ 
+              padding: '30px', 
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'white', 
+              borderRadius: '15px', 
+              boxShadow: isDarkMode ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 30px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <h3 style={{ fontSize: '2.5rem', color: isDarkMode ? '#f39c12' : '#d35400', marginBottom: '10px' }}>25+</h3>
+              <p style={{ color: isDarkMode ? '#bdc3c7' : '#7f8c8d', fontWeight: '500' }}>Signature Dishes</p>
             </div>
-            <div style={{ padding: '30px', background: 'white', borderRadius: '15px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-              <h3 style={{ fontSize: '2.5rem', color: '#d35400', marginBottom: '10px' }}>100%</h3>
-              <p style={{ color: '#7f8c8d', fontWeight: '500' }}>Fresh Ingredients</p>
+            <div style={{ 
+              padding: '30px', 
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'white', 
+              borderRadius: '15px', 
+              boxShadow: isDarkMode ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 30px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <h3 style={{ fontSize: '2.5rem', color: isDarkMode ? '#f39c12' : '#d35400', marginBottom: '10px' }}>100%</h3>
+              <p style={{ color: isDarkMode ? '#bdc3c7' : '#7f8c8d', fontWeight: '500' }}>Fresh Ingredients</p>
             </div>
-            <div style={{ padding: '30px', background: 'white', borderRadius: '15px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-              <h3 style={{ fontSize: '2.5rem', color: '#d35400', marginBottom: '10px' }}>15+</h3>
-              <p style={{ color: '#7f8c8d', fontWeight: '500' }}>Years Experience</p>
+            <div style={{ 
+              padding: '30px', 
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'white', 
+              borderRadius: '15px', 
+              boxShadow: isDarkMode ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 30px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <h3 style={{ fontSize: '2.5rem', color: isDarkMode ? '#f39c12' : '#d35400', marginBottom: '10px' }}>15+</h3>
+              <p style={{ color: isDarkMode ? '#bdc3c7' : '#7f8c8d', fontWeight: '500' }}>Years Experience</p>
             </div>
-            <div style={{ padding: '30px', background: 'white', borderRadius: '15px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-              <h3 style={{ fontSize: '2.5rem', color: '#d35400', marginBottom: '10px' }}>5⭐</h3>
-              <p style={{ color: '#7f8c8d', fontWeight: '500' }}>Customer Rating</p>
+            <div style={{ 
+              padding: '30px', 
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'white', 
+              borderRadius: '15px', 
+              boxShadow: isDarkMode ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 30px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <h3 style={{ fontSize: '2.5rem', color: isDarkMode ? '#f39c12' : '#d35400', marginBottom: '10px' }}>5⭐</h3>
+              <p style={{ color: isDarkMode ? '#bdc3c7' : '#7f8c8d', fontWeight: '500' }}>Customer Rating</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section style={{ padding: '40px 0', background: 'white' }}>
+      <section style={{ 
+        padding: '40px 0', 
+        background: isDarkMode ? '#2c3e50' : 'white' 
+      }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '40px' }}>
             {categories.map((category) => (
@@ -402,12 +484,17 @@ const Menu = () => {
                   padding: '12px 24px',
                   border: 'none',
                   borderRadius: '50px',
-                  background: activeCategory === category.id ? 'linear-gradient(135deg, #d35400, #e67e22)' : '#f8f9fa',
-                  color: activeCategory === category.id ? 'white' : '#2c3e50',
+                  background: activeCategory === category.id 
+                    ? 'linear-gradient(135deg, #d35400, #e67e22)' 
+                    : isDarkMode ? 'rgba(255, 255, 255, 0.1)' : '#f8f9fa',
+                  color: activeCategory === category.id 
+                    ? 'white' 
+                    : isDarkMode ? '#ffffff' : '#2c3e50',
                   fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  fontSize: '1rem'
+                  fontSize: '1rem',
+                  border: `1px solid ${isDarkMode && activeCategory !== category.id ? 'rgba(255, 255, 255, 0.2)' : 'transparent'}`
                 }}
               >
                 {category.icon} {category.name}
@@ -418,39 +505,106 @@ const Menu = () => {
       </section>
 
       {/* Menu Items */}
-      <section className="food-menu" style={{ padding: '60px 0' }}>
+      <section className="food-menu" style={{ 
+        padding: '60px 0',
+        backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff'
+      }}>
         <div className="container">
           {filteredItems.length > 0 ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '30px' }}>
               {filteredItems.map((item) => (
-                <div key={item.id} className="modern-menu-card">
-                  <div className="menu-card-image">
+                <div key={item.id} className="modern-menu-card" style={{
+                  background: isDarkMode ? '#2c3e50' : '#ffffff',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: isDarkMode ? '0 15px 35px rgba(0,0,0,0.5)' : '0 15px 35px rgba(0,0,0,0.1)',
+                  transition: 'all 0.3s ease',
+                  border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}`
+                }}>
+                  <div className="menu-card-image" style={{ position: 'relative', height: '250px' }}>
                     <img 
                       src={item.image} 
                       alt={item.name} 
                       className="img-responsive"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
                     />
                     {item.popular && (
-                      <div className="popular-badge">
+                      <div className="popular-badge" style={{
+                        position: 'absolute',
+                        top: '15px',
+                        left: '15px',
+                        background: 'linear-gradient(135deg, #f39c12, #e67e22)',
+                        color: 'white',
+                        padding: '8px 15px',
+                        borderRadius: '20px',
+                        fontSize: '0.85rem',
+                        fontWeight: '600'
+                      }}>
                         ⭐ Popular
                       </div>
                     )}
-                    <div className="spicy-indicator">
+                    <div className="spicy-indicator" style={{
+                      position: 'absolute',
+                      top: '15px',
+                      right: '15px',
+                      fontSize: '1.2rem'
+                    }}>
                       {getSpicyIcon(item.spicy)}
                     </div>
                   </div>
-                  <div className="menu-card-content">
-                    <div className="menu-card-header">
-                      <h3>{item.name}</h3>
-                      <span className="price">${item.price}</span>
+                  <div className="menu-card-content" style={{ padding: '25px' }}>
+                    <div className="menu-card-header" style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      marginBottom: '15px'
+                    }}>
+                      <h3 style={{
+                        fontSize: '1.5rem',
+                        color: isDarkMode ? '#ffffff' : '#2c3e50',
+                        marginBottom: '5px',
+                        fontFamily: 'Playfair Display, serif'
+                      }}>{item.name}</h3>
+                      <span className="price" style={{
+                        fontSize: '1.8rem',
+                        fontWeight: '800',
+                        color: isDarkMode ? '#f39c12' : '#d35400',
+                        fontFamily: 'Playfair Display, serif'
+                      }}>ETB {item.price.toFixed(2)}</span>
                     </div>
-                    <div className={`cuisine-badge ${item.category}`}>
+                    <div className={`cuisine-badge ${item.category}`} style={{
+                      display: 'inline-block',
+                      padding: '5px 12px',
+                      borderRadius: '15px',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      marginBottom: '15px',
+                      background: item.category === 'traditional' 
+                        ? (isDarkMode ? 'rgba(243, 156, 18, 0.2)' : 'rgba(211, 84, 0, 0.1)')
+                        : (isDarkMode ? 'rgba(52, 152, 219, 0.2)' : 'rgba(52, 152, 219, 0.1)'),
+                      color: item.category === 'traditional' 
+                        ? (isDarkMode ? '#f39c12' : '#d35400')
+                        : (isDarkMode ? '#3498db' : '#2980b9')
+                    }}>
                       {item.category === 'traditional' ? '🇪🇹 Ethiopian' : '🌍 International'}
                     </div>
-                    <p className="description">{item.description}</p>
+                    <p className="description" style={{
+                      color: isDarkMode ? '#bdc3c7' : '#7f8c8d',
+                      lineHeight: '1.6',
+                      marginBottom: '15px',
+                      fontSize: '1rem'
+                    }}>{item.description}</p>
                     {item.ingredients && (
-                      <div className="ingredients">
-                        <strong>Ingredients: </strong>
+                      <div className="ingredients" style={{
+                        marginBottom: '20px',
+                        fontSize: '0.9rem',
+                        color: isDarkMode ? '#95a5a6' : '#95a5a6'
+                      }}>
+                        <strong style={{ color: isDarkMode ? '#f39c12' : '#d35400' }}>Ingredients: </strong>
                         {item.ingredients.join(', ')}
                       </div>
                     )}
@@ -460,14 +614,15 @@ const Menu = () => {
                       style={{
                         width: '100%',
                         padding: '12px 20px',
-                        background: 'var(--gradient-primary)',
+                        background: 'linear-gradient(135deg, #d35400, #e67e22)',
                         color: 'white',
                         border: 'none',
                         borderRadius: '25px',
                         fontWeight: '600',
                         cursor: 'pointer',
-                        transition: 'var(--transition)',
-                        marginTop: '15px'
+                        transition: 'all 0.3s ease',
+                        marginTop: '15px',
+                        fontSize: '1rem'
                       }}
                       onMouseOver={(e) => {
                         e.target.style.transform = 'translateY(-2px)';
@@ -486,58 +641,142 @@ const Menu = () => {
             </div>
           ) : (
             <div className="container text-center" style={{ padding: '4rem 0' }}>
-              <h3>No menu items found</h3>
-              <p>Try adjusting your search or check back later.</p>
+              <h3 style={{ color: isDarkMode ? '#ffffff' : '#2c3e50' }}>No menu items found</h3>
+              <p style={{ color: isDarkMode ? '#bdc3c7' : '#7f8c8d' }}>Try adjusting your search or check back later.</p>
             </div>
           )}
         </div>
       </section>
 
       {/* Special Offers Section */}
-      <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, #fef5e7 0%, #fff5e6 100%)' }}>
+      <section style={{ 
+        padding: '80px 0', 
+        background: isDarkMode 
+          ? 'linear-gradient(135deg, #34495e 0%, #2c3e50 100%)' 
+          : 'linear-gradient(135deg, #fef5e7 0%, #fff5e6 100%)' 
+      }}>
         <div className="container">
-          <h2 className="text-center" style={{ marginBottom: '50px' }}>Special Offers</h2>
+          <h2 className="text-center" style={{ 
+            marginBottom: '50px',
+            fontSize: '3rem',
+            color: isDarkMode ? '#ffffff' : '#2c3e50',
+            fontFamily: 'Playfair Display, serif'
+          }}>Special Offers</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-            <div className="offer-card">
-              <div className="offer-icon">🍽️</div>
-              <h3>Family Combo</h3>
-              <p>Get any 3 traditional dishes + injera for only $45</p>
-              <div className="offer-price">Save $15</div>
+            <div className="offer-card" style={{
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
+              padding: '40px 30px',
+              borderRadius: '20px',
+              textAlign: 'center',
+              boxShadow: isDarkMode ? '0 15px 35px rgba(0,0,0,0.3)' : '0 15px 35px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <div className="offer-icon" style={{ fontSize: '3rem', marginBottom: '20px' }}>🍽️</div>
+              <h3 style={{ 
+                fontSize: '1.5rem', 
+                color: isDarkMode ? '#ffffff' : '#2c3e50', 
+                marginBottom: '15px',
+                fontFamily: 'Playfair Display, serif'
+              }}>Family Combo</h3>
+              <p style={{ 
+                color: isDarkMode ? '#bdc3c7' : '#7f8c8d', 
+                marginBottom: '20px',
+                lineHeight: '1.6'
+              }}>Get any 3 traditional dishes + injera for only ETB 2250</p>
+              <div className="offer-price" style={{
+                fontSize: '1.5rem',
+                fontWeight: '700',
+                color: isDarkMode ? '#f39c12' : '#d35400'
+              }}>Save ETB 450</div>
             </div>
-            <div className="offer-card">
-              <div className="offer-icon">🎉</div>
-              <h3>Happy Hour</h3>
-              <p>20% off all appetizers from 3-6 PM daily</p>
-              <div className="offer-price">20% OFF</div>
+            <div className="offer-card" style={{
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
+              padding: '40px 30px',
+              borderRadius: '20px',
+              textAlign: 'center',
+              boxShadow: isDarkMode ? '0 15px 35px rgba(0,0,0,0.3)' : '0 15px 35px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <div className="offer-icon" style={{ fontSize: '3rem', marginBottom: '20px' }}>🎉</div>
+              <h3 style={{ 
+                fontSize: '1.5rem', 
+                color: isDarkMode ? '#ffffff' : '#2c3e50', 
+                marginBottom: '15px',
+                fontFamily: 'Playfair Display, serif'
+              }}>Happy Hour</h3>
+              <p style={{ 
+                color: isDarkMode ? '#bdc3c7' : '#7f8c8d', 
+                marginBottom: '20px',
+                lineHeight: '1.6'
+              }}>20% off all appetizers from 3-6 PM daily</p>
+              <div className="offer-price" style={{
+                fontSize: '1.5rem',
+                fontWeight: '700',
+                color: isDarkMode ? '#f39c12' : '#d35400'
+              }}>20% OFF</div>
             </div>
-            <div className="offer-card">
-              <div className="offer-icon">☕</div>
-              <h3>Coffee Ceremony</h3>
-              <p>Traditional Ethiopian coffee ceremony with any meal</p>
-              <div className="offer-price">Free</div>
+            <div className="offer-card" style={{
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
+              padding: '40px 30px',
+              borderRadius: '20px',
+              textAlign: 'center',
+              boxShadow: isDarkMode ? '0 15px 35px rgba(0,0,0,0.3)' : '0 15px 35px rgba(0,0,0,0.1)',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}`
+            }}>
+              <div className="offer-icon" style={{ fontSize: '3rem', marginBottom: '20px' }}>☕</div>
+              <h3 style={{ 
+                fontSize: '1.5rem', 
+                color: isDarkMode ? '#ffffff' : '#2c3e50', 
+                marginBottom: '15px',
+                fontFamily: 'Playfair Display, serif'
+              }}>Coffee Ceremony</h3>
+              <p style={{ 
+                color: isDarkMode ? '#bdc3c7' : '#7f8c8d', 
+                marginBottom: '20px',
+                lineHeight: '1.6'
+              }}>Traditional Ethiopian coffee ceremony with any meal</p>
+              <div className="offer-price" style={{
+                fontSize: '1.5rem',
+                fontWeight: '700',
+                color: isDarkMode ? '#f39c12' : '#d35400'
+              }}>Free</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Chef's Recommendations */}
-      <section style={{ padding: '80px 0', background: 'white' }}>
+      <section style={{ 
+        padding: '80px 0', 
+        background: isDarkMode ? '#1a1a1a' : 'white' 
+      }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: '60px' }}>
-            <h2>Chef's Recommendations</h2>
-            <p className="section-subtitle">
+            <h2 style={{
+              fontSize: '3rem',
+              color: isDarkMode ? '#ffffff' : '#2c3e50',
+              fontFamily: 'Playfair Display, serif'
+            }}>Chef's Recommendations</h2>
+            <p className="section-subtitle" style={{
+              fontSize: '1.2rem',
+              color: isDarkMode ? '#bdc3c7' : '#7f8c8d',
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
               Our head chef's personal favorites, crafted with passion and authentic flavors
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '40px' }}>
             {filteredItems.filter(item => item.popular).slice(0, 3).map((item) => (
               <div key={`chef-${item.id}`} style={{
-                background: 'linear-gradient(135deg, #fff5e6 0%, #ffffff 100%)',
+                background: isDarkMode 
+                  ? 'linear-gradient(135deg, #34495e 0%, #2c3e50 100%)' 
+                  : 'linear-gradient(135deg, #fff5e6 0%, #ffffff 100%)',
                 borderRadius: '20px',
                 padding: '30px',
                 textAlign: 'center',
-                boxShadow: '0 15px 35px rgba(0,0,0,0.1)',
-                border: '2px solid #f39c12',
+                boxShadow: isDarkMode ? '0 15px 35px rgba(0,0,0,0.5)' : '0 15px 35px rgba(0,0,0,0.1)',
+                border: `2px solid ${isDarkMode ? '#f39c12' : '#f39c12'}`,
                 position: 'relative',
                 overflow: 'hidden'
               }}>
@@ -567,19 +806,27 @@ const Menu = () => {
                     boxShadow: '0 8px 25px rgba(243, 156, 18, 0.3)'
                   }}
                 />
-                <h3 style={{ color: '#d35400', marginBottom: '10px', fontFamily: 'Playfair Display, serif' }}>
+                <h3 style={{ 
+                  color: isDarkMode ? '#ffffff' : '#d35400', 
+                  marginBottom: '10px', 
+                  fontFamily: 'Playfair Display, serif' 
+                }}>
                   {item.name}
                 </h3>
-                <p style={{ color: '#7f8c8d', marginBottom: '15px', fontSize: '0.95rem' }}>
+                <p style={{ 
+                  color: isDarkMode ? '#bdc3c7' : '#7f8c8d', 
+                  marginBottom: '15px', 
+                  fontSize: '0.95rem' 
+                }}>
                   {item.description}
                 </p>
                 <div style={{
                   fontSize: '1.8rem',
                   fontWeight: '800',
-                  color: '#d35400',
+                  color: isDarkMode ? '#f39c12' : '#d35400',
                   fontFamily: 'Playfair Display, serif'
                 }}>
-                  ${item.price}
+                  ETB {item.price.toFixed(2)}
                 </div>
               </div>
             ))}
@@ -588,11 +835,26 @@ const Menu = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)', color: 'white' }}>
+      <section style={{ 
+        padding: '80px 0', 
+        background: isDarkMode 
+          ? 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)' 
+          : 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)', 
+        color: 'white' 
+      }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: '60px' }}>
-            <h2 style={{ color: 'white' }}>Why Choose Mesob Restaurant?</h2>
-            <p style={{ color: '#bdc3c7', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+            <h2 style={{ 
+              color: 'white',
+              fontSize: '3rem',
+              fontFamily: 'Playfair Display, serif'
+            }}>Why Choose Mesob Restaurant?</h2>
+            <p style={{ 
+              color: '#bdc3c7', 
+              fontSize: '1.2rem', 
+              maxWidth: '600px', 
+              margin: '0 auto' 
+            }}>
               Experience authentic Ethiopian cuisine with a modern twist in a warm, welcoming atmosphere
             </p>
           </div>
@@ -628,7 +890,7 @@ const Menu = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
