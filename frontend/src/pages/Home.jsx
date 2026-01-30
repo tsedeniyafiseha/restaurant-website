@@ -1,9 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import FoodStory from '../components/FoodStory';
-import CustomerReviews from '../components/CustomerReviews';
-import SpecialEvents from '../components/SpecialEvents';
-import LocationInfo from '../components/LocationInfo';
 
 const Home = () => {
   return (
@@ -184,18 +180,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Food Stories */}
-      <FoodStory />
-
-      {/* Customer Reviews */}
-      <CustomerReviews />
-
-      {/* Special Events */}
-      <SpecialEvents />
-
-      {/* Location Info */}
-      <LocationInfo />
 
       {/* Reservation CTA */}
       <section className="reservation-cta">

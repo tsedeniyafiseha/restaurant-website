@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../context/SimpleCartContext';
 
-const Navbar = ({ onCartClick, onReservationClick }) => {
+const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const { getTotalItems } = useCart();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { getTotalItems, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,32 +37,47 @@ const Navbar = ({ onCartClick, onReservationClick }) => {
             </li>
             <li>
               <button 
-                className="nav-btn theme-toggle"
-                onClick={toggleTheme}
-                title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              >
-                {isDarkMode ? '☀️' : '🌙'}
-              </button>
-            </li>
-            <li>
-              <button 
                 className="nav-btn cart-btn"
-                onClick={onCartClick}
-                title="View Cart"
+                onClick={() => setIsCartOpen(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-dark)',
+                  fontWeight: '500',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  padding: '8px 16px',
+                  borderRadius: '20px',
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px'
+                }}
               >
                 🛒 Cart
                 {getTotalItems() > 0 && (
-                  <span className="cart-badge">{getTotalItems()}</span>
+                  <span className="cart-badge" style={{
+                    position: 'absolute',
+                    top: '-5px',
+                    right: '-5px',
+                    background: 'var(--primary-color)',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: '20px',
+                    height: '20px',
+                    fontSize: '0.8rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: '600'
+                  }}>
+                    {getTotalItems()}
+                  </span>
                 )}
               </button>
             </li>
             <li>
-              <button 
-                className="nav-btn reservation-btn"
-                onClick={onReservationClick}
-              >
-                🍽️ Reserve Table
-              </button>
+              <Link to="/contact" className="btn btn-primary">Reserve Table</Link>
             </li>
           </ul>
         </div>
