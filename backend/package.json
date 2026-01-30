@@ -1,0 +1,15 @@
+{
+  "name": "mesob-restaurant-backend",
+  "version": "1.0.0",
+  "description": "Simple Restaurant API with Supabase",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "node src/app.js",
+    "start": "node src/app.js",
+    "migrate": "node migrate.js",
+    "test": "node test-connection.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.93.3"
+  }
+}
